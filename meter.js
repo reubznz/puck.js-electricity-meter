@@ -7,7 +7,6 @@ var counter = 0;
 var counterkWh = 0;
 
 var lastpulse = Math.floor(Date.now());
-var currentTime = Math.floor(Date.now()) / 1000;
 
 var pulsetime = 0;
 
@@ -42,15 +41,15 @@ function calculateData() {
 }
 
 setInterval(function() {
-    if ( Math.floor(currentTime) % 3600 === 0 ) {
+    var timeNow = new Date();
+    if ( timeNow.getMinutes() == 59 && timeNow.getSeconds == 0 ) {
         //  500 pulses = 0.5kWh
         // 1200 pulses = 1.2kWh
         // energy = counterkWh / 1000;
-        // we don't divide by 1000 here, as HA does that for us
+        // we don't divide by 1000 here, as BTHome precision does that for us
         energy = counterkWh;
         counterkWh = 0;
     }
-    currentTime = Math.floor(Date.now()) / 1000;
 }, 1000 );
 
 // Set up pin states
